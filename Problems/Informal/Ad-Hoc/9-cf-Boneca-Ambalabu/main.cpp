@@ -1,32 +1,22 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-
+#define ll long long
+#define ull unsigned long long
 //forward refs
 template <typename container> void cinfoCon(container& genericSequence,string id="None", int depth=0);
 
 //debug utils
 #ifdef DEBUG
-	#define cinfo cout
-	#define add <<
-	template <typename container> void cinfoCon(container& genericSequence,string id, int depth){
-		cout<<"=============cinfoCon Debug ("<<id<<") START =============\n";
-		string prefix = "";
-		for(int i=0;i<depth;i++) prefix+="\t";
-
-		for(auto every: genericSequence){
-			cout<<prefix<<every<<"\n";
+	template<typename T>void debug(vector<T> v){
+		for(auto i:v){
+			cout<<"\t"<<i<<"\n";
 		}
-		cout<<"=============cinfoCon Debug ("<<id<<") END =============\n";
-
+		cout<<"\n";
 	}
 #endif
 #ifndef DEBUG
-	#define cinfo ;
-	#define add ;
-	template <typename container> void cinfoCon(container& genericSequence,string id, int depth){
-		return ;
-	}
+	template<typename T>void debug(vector<T>v){}
 
 #endif
 
@@ -44,7 +34,34 @@ template <typename container> void cinfoCon(container& genericSequence,string id
     
 */
 void solve(){
-	return;
+	int n;
+	ull sum=0,maxsum=0;
+	cin >> n;
+	vector<int> a(n);
+	vector<int> bitset(30);
+	for(int i =0;i<n;i++){
+		cin>>a[i];
+		
+	}
+	for(int i =0;i<n;i++){
+		for(int j=0;j<30;j++){
+			bitset[j] += (a[i]>>j)&1;
+		}
+	}
+	for(int i =0;i<n;i++){
+		sum=0;
+		for(int j=0;j<30;j++){
+			if(((a[i]>>j)&1)==0){
+				sum += (1LL)*(bitset[j])*(1 << j);
+			}
+			else{
+				sum += (1LL)*(n-bitset[j])*(1 << j);
+			}
+		}
+		if(sum>maxsum)maxsum=sum;
+		
+	}
+	cout<<maxsum<<"\n";
 }
 
 int main(){
@@ -55,8 +72,8 @@ int main(){
 
 	
 
-	int n;
-	cin>>n;
-	while(n--)solve();
+	ull t;
+	cin>>t;
+	while(t--)solve();
 	return 0;
 }
