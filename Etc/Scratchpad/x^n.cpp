@@ -109,7 +109,13 @@ int pow_fued_up(int x,int n){
 	return acc*acc*((n&1)!=0?x:1);
 }
 
-
+int sexy_pow(int x,int p){
+	int ans = 1;
+	for(;p;p/=2,x*=x){
+		if(p&1)ans*=x;
+	}
+	return ans;
+}
 
 
 
@@ -117,7 +123,7 @@ void solve(){
 	vector<int> test = {12,11,9,6,5,4,7,1};
 
 	for(int i=0;i<test.size();i++){
-		cout<<pow_trivial(test[i],i)<<"\t\t\t\t"<<pow_unbalanced_fast(test[i],i)<<"\t\t\t\t"<<pow_balanced_fast(test[i],i)<<"\t\t\t\t"<<pow_balanced_fast_refined(test[i],i)<<"\n";
+		cout<<pow_trivial(test[i],i)<<"\t\t\t\t"<<pow_unbalanced_fast(test[i],i)<<"\t\t\t\t"<<pow_balanced_fast(test[i],i)<<"\t\t\t\t"<<pow_balanced_fast_refined(test[i],i)<<"\t\t\t\t"<<sexy_pow(test[i],i)<<"\n";
 	}
     
 
