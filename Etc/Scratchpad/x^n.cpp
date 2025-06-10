@@ -94,20 +94,10 @@ int pow_balanced_fast_refined(int x,int n){
 	if(n==0||x==1) return 1;
 	if(x==0&&n!=0) return 0;
 	if(x==0&&n==0) return -1;
-	acc = pow_balanced_fast(x,floor(n/2));
-	return acc*acc*((n&1)!=0?x:1);
-}
-
-int pow_fued_up(int x,int n){
-	long long acc;
-	if(n==1) return x;
-	if(n==0||x==1) return 1;
-	if(x==0&&n!=0) return 0;
-	if(x==0&&n==0) return -1;
-	//n/2 is floored bc n is int
 	acc = pow_balanced_fast(x,(n/2));
 	return acc*acc*((n&1)!=0?x:1);
 }
+
 
 int sexy_pow(int x,int p){
 	int ans = 1;
