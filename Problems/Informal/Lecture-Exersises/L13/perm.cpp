@@ -69,11 +69,26 @@ void solve(set<int> &data, set<int> instance,vector<int> instanceVector) {
             }
         }
     }
-
-
-
 }
-
+//Given an integer 1 <= n <= 10, write a recursive algorithm that prints all the permutations of the set {1,2,3,...,n}.
+void solve2(set<int> &data, vector<bool> isUsedVector,vector<int> instanceVector) {
+    //set because i want faster search
+    //i was about to use an unordered_set but we taiked about avoiding this.
+    //vector because ordering matters 
+    if(data.size() == instanceVector.size()) {
+        print_instance(instanceVector);
+    } else {
+        for(auto s : data) {
+            if(!isUsedVector[s-1]) {
+                vector<bool> isUsedVector_advance = isUsedVector;
+                vector<int>cloneVector = instanceVector;
+                isUsedVector_advance[s-1]=true;
+                cloneVector.push_back(s);
+                solve2(data, isUsedVector_advance,cloneVector);
+            }
+        }
+    }
+}
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(0);
@@ -84,11 +99,14 @@ int main() {
     cin >> n;
     set<int> data;
     set<int> instanceSet;
+    vector<bool> isUsedVector(n,0);
     vector<int> instanceVector;
     for(int i = 0; i < n; i++) {
         size *= (i + 1);
         data.insert(i+1);
     }
     solve(data, instanceSet,instanceVector);
+    cout<<"-----\n";
+    solve2(data, isUsedVector,instanceVector);
     return 0;
 }
