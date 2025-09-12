@@ -46,29 +46,38 @@ template <typename container> void cinfoCon(container& genericSequence,string id
 */
 
 void print_instance(set<int> level,int l){
-    //for(int i=0;i<l;i++)cout<<"\t";
     cout<<"{";
     for(auto each:level) cout<<each<<",";
     if(level.size()!=0)cout<<"\b";
     cout<<"}\n";
 }
 
-void recv_subsets(vector<int>& data,set<int> level,int level_index){
+void recv_subsets_v1(vector<int>& data,set<int> level,int level_index){
     print_instance(level,level_index);
     for(int i=level_index;i<data.size();i++){
         int each = data[i];
+        //if each does not exist in level
         if(level.find(each)==level.end()){
             set<int>advance_level = level;
             advance_level.insert(each);
-            recv_subsets(data,advance_level,i);
+            recv_subsets_v1(data,advance_level,i);
         }
     }
 }
-
+void recv_subsets_v2(vector<int>& data,set<int> level,int level_index){
+    print_instance(level,level_index);
+    for(int i=level_index;i<data.size();i++){
+        int each = data[i];
+        set<int>advance_level = level;
+        advance_level.insert(each);
+        recv_subsets_v2(data,advance_level,i+1);
+        
+    }
+}
 void subsets(vector<int>& data){
     set<int> root ;
 
-    recv_subsets(data,root,0);
+    recv_subsets_v2(data,root,0);
 
 }
 
