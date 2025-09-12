@@ -72,9 +72,6 @@ void solve(set<int> &data, set<int> instance,vector<int> instanceVector) {
 }
 //Given an integer 1 <= n <= 10, write a recursive algorithm that prints all the permutations of the set {1,2,3,...,n}.
 void solve2(set<int> &data, vector<bool> isUsedVector,vector<int> instanceVector) {
-    //set because i want faster search
-    //i was about to use an unordered_set but we taiked about avoiding this.
-    //vector because ordering matters 
     if(data.size() == instanceVector.size()) {
         print_instance(instanceVector);
     } else {
