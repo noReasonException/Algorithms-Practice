@@ -75,7 +75,7 @@ void subsets(vector<int>& data){
 //1. Given an integer 1 <= n <= 20, write a recursive algorithm that prints all the subsets of the set {1,2,3,...,n}.
 void solve(int n){
     vector<int> s;
-    for(int i=0;i<n;i++) s.push_back(i);
+    for(int i=1;i<=n;i++) s.push_back(i);
 
     for(auto each:s) cout<<each<<"\n";
 
