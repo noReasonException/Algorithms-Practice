@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 using namespace std;
+#define ll long long
 
 //forward refs
 template <typename container> void cinfoCon(container& genericSequence,string id="None", int depth=0);
