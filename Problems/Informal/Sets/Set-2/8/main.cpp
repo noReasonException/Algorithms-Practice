@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include <algorithm>
 using namespace std;
 #define ll long long
 
@@ -8,7 +9,7 @@ using namespace std;
 template <typename container> void cinfoCon(container& genericSequence,string id="None", int depth=0);
 
 //debug utils
-#ifndef DEBUG
+#ifdef DEBUG
 	#define cinfo cout
 	#define add <<
 	template <typename container> void cinfoCon(container& genericSequence,string id, int depth){
@@ -23,7 +24,7 @@ template <typename container> void cinfoCon(container& genericSequence,string id
 
 	}
 #endif
-#ifdef DEBUG
+#ifndef DEBUG
 	#define cinfo ;
 	#define add ;
 	template <typename container> void cinfoCon(container& genericSequence,string id, int depth){
@@ -49,25 +50,25 @@ template <typename container> void cinfoCon(container& genericSequence,string id
 int done(vector<int>&a){
     /*done is 
         either all same : result is 'depth', return 0
-        increasing/decreasing :result is 'depth' + size() , return 'size()'
+        increasing/decreasing :result is 'depth' + size() , return 'size()' -> i dont have a good proof for it, do i will omit it for now
 
         return -1 if not done
     */
    bool identical=true;
-   bool monotonicI=true;
-   bool monotonicD=true;
+//    bool monotonicI=true;
+//    bool monotonicD=true;
    if(a.size()<2) return 0;
    int prev = a[0];
    for (int i = 1; i < a.size(); i++){
-        if(prev>a[i])monotonicI=false;
-        if(prev<a[i])monotonicD=false;
+        //if(prev>a[i])monotonicI=false;
+        //if(prev<a[i])monotonicD=false;
         if(a[i]!=prev) {
             identical=false;
         }
         prev=a[i];
    }
    if(identical) return 0;
-   else if(monotonicD||monotonicI) return a.size()-1;
+   //else if(monotonicD||monotonicI) return a.size()-1;
    else return -1;
 }
 vector<vector<int>> gen_states(vector<int>&a,int depth){
