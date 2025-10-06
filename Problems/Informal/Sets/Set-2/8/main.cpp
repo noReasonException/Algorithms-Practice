@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <sstream>
 using namespace std;
 #define ll long long
 
@@ -55,7 +56,6 @@ int done(vector<int>&a){
    bool identical=true;
    bool monotonicI=true;
    bool monotonicD=true;
-   bool monotonic=true;
    if(a.size()<2) return 0;
    int prev = a[0];
    for (int i = 1; i < a.size(); i++){
@@ -66,15 +66,14 @@ int done(vector<int>&a){
         }
         prev=a[i];
    }
-   monotonic=monotonicD||monotonicI;
    if(identical) return 0;
-   else if (monotonic) return a.size();
+   else if(monotonicD||monotonicI) return a.size()-1;
    else return -1;
 }
-vector<vector<int>> gen_states(vector<int>&a){
+vector<vector<int>> gen_states(vector<int>&a,int depth){
     vector<vector<int>>states;
     if(a.size()<2) return states;
-    if(a[0]>a[a.size()-1]){
+    if(a[a.size()-1]<=a[0]){
         vector<int>stateRemoveFirst(a.begin()+1,a.end());
         vector<int>stateRemoveLast(a.begin(),a.end()-1);
         states.push_back(stateRemoveFirst);
@@ -90,19 +89,22 @@ vector<vector<int>> gen_states(vector<int>&a){
             states.push_back(stateRemoveLatter);
        }
     }
-
     return states;
 }
 int solution(vector<int>&a,int depth){
     int isDone = done(a);
+    std::stringstream ab;
     if(isDone>=0) return isDone+depth;
     else{
-        vector<vector<int>> states = gen_states(a);
+        vector<vector<int>> states = gen_states(a,depth);
+        vector<int> results;
         for(auto each:states){
-            return solution(each,depth+1);
+            results.push_back(solution(each,depth+1));
         }
+        std::sort(results.begin(),results.end());
+        return results[0];
     }
-    return -1;
+    return -1; //this is an impossible state;
     
 }
 
@@ -112,7 +114,6 @@ void solve(){
     vector<int> a(n);
     for (int i = 0; i < n; i++) cin>>a[i];
     cout<<solution(a,0)<<"\n";
-
     
 }
 
