@@ -43,11 +43,9 @@ template <typename container> void debug(container& genericSequence,string id="N
 //n Size, s Start, adjlist : Adjacent List
 void _dfsv1(int n,int s,vector<vector<int>>&adjlist,vector<bool>& visited){
 	if(visited[s]) return;
-	else {
-		//cause --a;--b;
-		cout<<s+1<<"\n";
-		visited[s]=true;
-	}
+	//cause --a;--b;
+	cout<<s+1<<"\n";
+	visited[s]=true;
 	for(auto next:adjlist[s]){
 		_dfsv1(n,next,adjlist,visited);
 	}
