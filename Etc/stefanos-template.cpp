@@ -4,28 +4,24 @@ using namespace std;
 #define ll long long
 
 //forward refs
-template <typename container> void cinfoCon(container& genericSequence,string id="None", int depth=0);
+template <typename container> void debug(container& genericSequence,string id="None", int depth=0);
 
 //debug utils
 #ifdef DEBUG
-	#define cinfo cout
-	#define add <<
-	template <typename container> void cinfoCon(container& genericSequence,string id, int depth){
-		cout<<"=============cinfoCon Debug ("<<id<<") START =============\n";
+	template <typename container> void debug(container& genericSequence,string id, int depth){
+		cout<<"=============Debug ("<<id<<") START =============\n";
 		string prefix = "";
 		for(int i=0;i<depth;i++) prefix+="\t";
 
 		for(auto every: genericSequence){
 			cout<<prefix<<every<<"\n";
 		}
-		cout<<"=============cinfoCon Debug ("<<id<<") END =============\n";
+		cout<<"=============Debug ("<<id<<") END =============\n";
 
 	}
 #endif
 #ifndef DEBUG
-	#define cinfo ;
-	#define add ;
-	template <typename container> void cinfoCon(container& genericSequence,string id, int depth){
+	template <typename container> void debug(container& genericSequence,string id, int depth){
 		return ;
 	}
 
