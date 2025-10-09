@@ -41,6 +41,8 @@ template <typename container> void debug(container& genericSequence,string id="N
     
 */
 //n Size, s Start, adjlist : Adjacent List
+vector<int>pre,post;
+int ppclock=0;
 void _dfsv1(int n,int s,vector<vector<int>>&adjlist,vector<bool>& visited){
 	if(visited[s]) return;
 	//cause --a;--b;
@@ -59,9 +61,23 @@ void _dfsv2(int n,int s,vector<vector<int>>&adjlist,vector<bool>& visited){
 		if(!visited[next]) _dfsv2(n,next,adjlist,visited);
 	}
 }
+void _dfsvprepostorder(int n,int s,vector<vector<int>>&adjlist,vector<bool>& visited){
+	pre.push_back(ppclock);
+	ppclock++;
+	//cause --a;--b;
+	cout<<s+1<<"\n";
+	visited[s]=true;
+	for(auto next:adjlist[s]){
+		if(!visited[next]) _dfsvprepostorder(n,next,adjlist,visited);
+	}
+	post.push_back(ppclock);
+	ppclock++;
+
+
+}
 void dfs_recv(int n,int s,vector<vector<int>>&adjlist){
 	vector<bool>visited(n,false);
-	_dfsv2(n,0,adjlist,visited);
+	_dfsvprepostorder(n,0,adjlist,visited);
 }
 void dfs_stack(int n,int s,vector<vector<int>>&adjlist){
 	vector<bool>visited(n,false);
@@ -101,6 +117,14 @@ int main(){
 	dfs_recv(n,0,adjlist);
 	cout<<"---\n";
 	dfs_stack(n,0,adjlist);
+	cout<<"pre";
+	for(auto each:pre){
+		cout<<each<<"-";
+	}
+	cout<<"\npost";
+	for(auto each:post){
+		cout<<each<<"-";
+	}
     
 
 	
