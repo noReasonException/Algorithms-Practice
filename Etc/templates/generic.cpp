@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <set>
 using namespace std;
 #define ll long long
 
@@ -52,8 +53,8 @@ int main(){
 
 	
 
-	int n;
-	cin>>n;
-	while(n--)solve();
+	int t;
+	cin>>t;
+	while(t--)solve();
 	return 0;
 }
