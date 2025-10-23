@@ -41,8 +41,22 @@ template <typename container> void debug(container& genericSequence,string id="N
     * long long instead of int
     
 */
-void solve(){
-	return;
+void solve(int t){
+	int n,prev,curr;
+	cin>>n;
+	cin>>prev;
+	bool failed=false;
+	for (int i = 1; i < n; i++)
+	{
+		cin>>curr;
+		if(prev>curr) {
+			cout<<"testcase "<<t<<" failed on "<<i<<"\n";
+			failed=true;
+		}
+		prev=curr;
+	}
+	cout<<"Testcase "<<t<<" was a "<<(failed?"failure":"success")<<"\n";
+	
 }
 
 int main(){
@@ -55,6 +69,6 @@ int main(){
 
 	int t;
 	cin>>t;
-	while(t--)solve();
+	while(t--)solve(t);
 	return 0;
 }

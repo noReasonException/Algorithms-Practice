@@ -73,7 +73,7 @@ vector<int>merge(vector<int>left,vector<int>right){
 }
 
 vector<int>mergesort_recv(vector<int>arr,int lo,int hi){
-    cout<<"lo "<<lo<<" hi "<<hi<<"\n";
+    //cout<<"lo "<<lo<<" hi "<<hi<<"\n";
     vector<int> answer;
     int mid;
     if(hi-lo<=1) {
@@ -81,7 +81,7 @@ vector<int>mergesort_recv(vector<int>arr,int lo,int hi){
         return answer;
     }
     mid=floor((lo+hi)/2);
-    vector<int> left = mergesort_recv(arr,lo,mid-1);
+    vector<int> left = mergesort_recv(arr,lo,mid);
     vector<int> right = mergesort_recv(arr,mid,hi);
     answer = merge(left,right);
     return answer;
@@ -101,7 +101,13 @@ void solve(){
         cin>>arr[i];
     }
     vector<int> sorted = mergesort(arr);
-    debug(sorted);
+    cout<<n<<"\n";
+    for (int i = 0; i < n; i++)
+    {
+        cout<<sorted[i]<<" ";
+    }
+    cout<<"\n";
+    
     
 }
 
@@ -111,7 +117,11 @@ int main(){
 	//freopen("input.txt", "r", stdin);
 	//freopen("output.txt", "w", stdout);
 
-    solve();
+    int t;
+    cin>>t;
+    while(--t){
+        solve();
+    }
 
 	// cout<<"start\n";
     // vector<int>left = {1,2,4,6,7};
