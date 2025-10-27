@@ -42,28 +42,59 @@ template <typename container> void debug(container& genericSequence,string id="N
     
 */
 
-vector<int>partition(vector<int>arr,int lo,int hi,int pivot){
+/**
+ * Simpler, Extra Space Solution
+ */
+vector<int>partition_extra_space(vector<int>arr,int pivot_index){
+    vector<int> b(arr.size(),0);
+    int l=0;
+    int h=arr.size() -1;
+    for (int i = 0; i < arr.size(); i++)
+    {
+        if(i==pivot_index) continue;
+        if(arr[i]>arr[pivot_index]){
+            b[h]=arr[i];
+            h--;
+        }
+        else{
+            b[l]=arr[i];
+            l++;
+        }
+    }
+    b[h]=arr[pivot_index];
+    return b;
+}
+void swap(int i,int j,vector<int>&arr){
+    int c = arr[j];
+    arr[j]=arr[i];
+    arr[i]=c;
+}
+vector<int> partition_no_extra_space(vector<int>&arr,int l,int h,int pivot_index){
+    // int l=0;
+    // int h=arr.size()-1;
+    while(l<h){
+        while(arr[l]<arr[pivot_index]&&l<h) l++;
+        while(arr[h]>arr[pivot_index]&&l<h) h--;
+        if(l<h) swap(l,h,arr);
+        l++;
+        h--;
+    }
+
+    return arr;
+}
+
+void quicksort_recv(vector<int>&arr,int l,int h){
+    if(l>=h)return;
+    int pivot = l;
+    partition_no_extra_space(arr,l,h,l);
     
-}
-
-vector<int>quicksort_recv(vector<int>arr,int lo,int hi){
-    
-	if(hi-lo==1){
-        vector<int> answer;
-		answer.push_back(arr[hi]);
-	}
-	int pivot = floor((lo+hi)/2);
-	answer = partition(arr,lo,hi,pivot);
-	quicksort_recv(arr,lo,pivot);
-	quicksort_recv(arr,pivot,hi);
-	return answer;
+    quicksort_recv(arr,l,h/2);
+    quicksort_recv(arr,h/2,h);
 
 }
-
-vector<int> quicksort(vector<int> arr){
-    return quicksort_recv(arr,0,arr.size());
+vector<int> quicksort(vector<int>arr){
+    quicksort_recv(arr,0,arr.size());
 }
-
 void solve(){
 	int n;
     cin>>n;
@@ -72,11 +103,24 @@ void solve(){
     {
         cin>>arr[i];
     }
-    vector<int> sorted = quicksort(arr);
-    cout<<n<<"\n";
     for (int i = 0; i < n; i++)
     {
-        cout<<sorted[i]<<" ";
+        cout<<arr[i]<<" ";
+    }
+    cout<<"\n";
+    cout<<"pivot is "<<arr[0]<<"\n";
+    cout<<"n is "<<n<<"\n";
+    vector<int> pivoted1 = partition_extra_space(arr,0);
+    
+    for (int i = 0; i < n; i++)
+    {
+        cout<<pivoted1[i]<<" ";
+    }
+    vector<int> pivoted2 = partition_no_extra_space(arr,0,n-1,0);
+    cout<<"\n";
+    for (int i = 0; i < n; i++)
+    {
+        cout<<pivoted2[i]<<" ";
     }
     cout<<"\n";
     
@@ -91,15 +135,8 @@ int main(){
 
     int t;
     cin>>t;
-    while(--t){
+    while(t--){
         solve();
     }
-
-	// cout<<"start\n";
-    // vector<int>left = {1,2,4,6,7};
-    // vector<int>right = {3,4,5,9,10};
-    // //1 2 3 4 4 5 6 7 9 10
-	// vector<int>merged = merge(right,left);
-    // debug(merged);
 	return 0;
 }
