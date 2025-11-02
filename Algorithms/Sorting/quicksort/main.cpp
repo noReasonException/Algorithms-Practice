@@ -61,7 +61,7 @@ vector<int>partition_extra_space(vector<int>arr,int pivot_index){
             l++;
         }
     }
-    b[h]=arr[pivot_index];
+    b[l]=arr[pivot_index];
     return b;
 }
 void swap(int i,int j,vector<int>&arr){
@@ -70,8 +70,9 @@ void swap(int i,int j,vector<int>&arr){
     arr[i]=c;
 }
 vector<int> partition_no_extra_space(vector<int>&arr,int l,int h,int pivot_index){
-    // int l=0;
-    // int h=arr.size()-1;
+    swap(0,pivot_index,arr); //nessesary to select an arbitary pivot
+    //you could just select always the first, with simpler initialization
+    l+=1;
     while(l<h){
         while(arr[l]<arr[pivot_index]&&l<h) l++;
         while(arr[h]>arr[pivot_index]&&l<h) h--;
@@ -79,7 +80,7 @@ vector<int> partition_no_extra_space(vector<int>&arr,int l,int h,int pivot_index
         l++;
         h--;
     }
-
+    swap(0,h,arr);
     return arr;
 }
 
