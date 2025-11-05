@@ -41,7 +41,9 @@ template <typename container> void debug(container& genericSequence,string id="N
     * long long instead of int
     
 */
-int main(){
+
+
+int solve_actual_error(){
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 	//freopen("input.txt", "r", stdin);
@@ -53,10 +55,28 @@ int main(){
     ld d= 0.000001;
     ld l = 0, h = n;
     ld m,guess;
+    //based on actual error
+    do{
+        m = l + (h-l)/2;
+        guess = m*m;
+        if(guess-n>0) h=m;
+        else l=m;
+    }while(abs(n-guess)>d);
+    cout<<"approx "<<m<<" error is "<<n-guess<<"\n";
+	
+	return 0;
+}
+
+int solve_hl_diff(){
+	
+	int n=10;
+    ld d= 0.000001;
+    ld l = 0, h = n;
+    ld m,guess;
+    //based on h-l diff
     while(abs(h-l)>d){
         m = l + (h-l)/2;
         guess = m*m;
-        cout<<m<<"\n";
         if(guess-n>0) h=m;
         else l=m;
     }
@@ -64,4 +84,9 @@ int main(){
     
 	
 	return 0;
+}
+
+int main(){
+    solve_actual_error();
+    solve_hl_diff();
 }
