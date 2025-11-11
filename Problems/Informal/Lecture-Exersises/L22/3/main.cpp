@@ -92,22 +92,33 @@ vector<int>mergesort_recv(vector<int>arr,int lo,int hi,int d=0){
 }
 vector<int>mergesort_recv2(vector<int>arr,int lo,int hi,int d=0){
 
-    int mid = lo + (hi - lo)/2;
-    int q1 = lo + (mid - lo)/2;
-    int q3 = mid + (hi-mid)/2;
-
     if(hi-lo<=1) {
         vector<int> answer;
         answer.push_back(arr[lo]);
         return answer;
     }
 
-    
-    vector<int> left = mergesort_recv2(arr,lo,q1,d+1);
-    vector<int> center = mergesort_recv2(arr,q1,q3,d+1);
-    vector<int> right = mergesort_recv2(arr,q3,hi,d+1);
+    int size = hi-lo;
+    int q1 = size*(0.3);
+    int q3 = size*(0.6);
 
-    if(lo==q1){
+    for (int i = 0; i < d; i++)
+    {
+        cout<<"\t";
+    }
+    cout<<lo<<"-"<<lo+q1<<"-"<<"-"<<lo+q3<<"-"<<hi<<"\n";
+    
+    vector<int> left = mergesort_recv2(arr,lo,lo+q1,d+1);
+    vector<int> center = mergesort_recv2(arr,lo+q1,lo+q3,d+1);
+    vector<int> right = mergesort_recv2(arr,lo+q3,hi,d+1);
+
+    if(q1==0){
+        //for single-element arrays, we always return arr[lo]
+        //every array will end up being single-element, and said element will be returned
+        //if q1==0 means that left will return arr[lo]
+        //also if q1==0 means that center will eventually also return arr[lo]
+        //this results in arrays with duplicates, this condition stabilises that
+        //this is not a thing on classic mergesort due to the rounding of lo and hi, arr[lo] element goes only on one branch of the tree.
         vector<int> merge1 = merge(center,right);
         return merge1;    
     }
