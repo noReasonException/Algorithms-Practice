@@ -42,7 +42,7 @@ template <typename container> void debug(container& genericSequence,string id="N
     
 */
 
-vector<int>merge(vector<int>left,vector<int>right){
+vector<int>merge_asc(vector<int>left,vector<int>right){
     int left_index=0,right_index=0;
     int left_size = left.size();
     int right_size = right.size();
@@ -53,6 +53,35 @@ vector<int>merge(vector<int>left,vector<int>right){
             left_index+=1;
         }
         else if (left[left_index]>right[right_index]){
+            answer.push_back(right[right_index]);
+            right_index+=1;
+        }
+        else/*equal*/{
+            answer.push_back(right[right_index]);
+            answer.push_back(right[right_index]);
+            right_index+=1;
+            left_index+=1;
+        }
+    }
+    for (; left_index<left_size; left_index++){
+        answer.push_back(left[left_index]);
+    }
+    for (; right_index<right_size; right_index++){
+        answer.push_back(right[right_index]);
+    }
+    return answer;
+}
+vector<int>merge_desc(vector<int>left,vector<int>right){
+    int left_index=0,right_index=0;
+    int left_size = left.size();
+    int right_size = right.size();
+    vector<int> answer;
+    while(left_index<left_size && right_index<right_size){
+        if(left[left_index]>right[right_index]){
+            answer.push_back(left[left_index]);
+            left_index+=1;
+        }
+        else if (left[left_index]<right[right_index]){
             answer.push_back(right[right_index]);
             right_index+=1;
         }
@@ -83,7 +112,7 @@ vector<int>mergesort_recv(vector<int>arr,int lo,int hi){
     mid=floor((lo+hi)/2);
     vector<int> left = mergesort_recv(arr,lo,mid);
     vector<int> right = mergesort_recv(arr,mid,hi);
-    answer = merge(left,right);
+    answer = merge_desc(left,right);
     return answer;
 
 }
@@ -119,7 +148,7 @@ int main(){
 
     int t;
     cin>>t;
-    while(--t){
+    while(t--){
         solve();
     }
 
