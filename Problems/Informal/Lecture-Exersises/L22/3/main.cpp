@@ -3,7 +3,7 @@
 #include <set>
 using namespace std;
 #define ll long long
-
+#include <cassert>
 //forward refs
 template <typename container> void debug(container& genericSequence,string id="None", int depth=0);
 
@@ -92,47 +92,68 @@ vector<int>mergesort_recv(vector<int>arr,int lo,int hi,int d=0){
 }
 vector<int>mergesort_recv2(vector<int>arr,int lo,int hi,int d=0){
     int qsize = (hi-lo)/3;
-    int msize = (hi-lo)%3; //max branch size difference is +- 2, therefore a constant
+    int msize = (hi-lo)%3;
+    int q1l=0,q2l=0,q3l=0;
+    int q1h=0,q2h=0,q3h=0;
 
-    for (int i = 0; i < d; i++)
-    {
-        cout<<"\t";
+    // for (int i = 0; i < d; i++)
+    // {
+    //     cout<<"\t";
+    // }
+
+    //base case 1
+    if(qsize==0 && msize == 1){
+        //cout<<"base case msize = 1 "<<lo<<"\n";
+        vector<int> answer;
+        answer.push_back(arr[lo]);
+        return answer;
+    }
+    //base case 2
+    else if(qsize==0 && msize == 2){
+        //cout<<"base case msize = 2 "<<lo<<","<<lo+1<<"\n";
+        vector<int> left;
+        vector<int> right;
+        left.push_back(arr[lo]);
+        right.push_back(arr[lo+1]);
+        vector<int> result = merge(left,right);
+        return result;
     }
 
-    if(qsize==0){
-        //mod is either 1 or 2 (or 0 which is impossible, as our base cases are either 1 or 2)
-        //for 1 its base case
-        //for 2 , is a base case with 2 single-element arrays
-        
-        if(msize==1){
-            // 1, base case
-            cout<<" Base case 1 "<<lo<<"\n";
-            vector<int> answer;
-            answer.push_back(arr[lo]);
-            return answer;
-        }
-        else if (msize==2){
-            //2, 
-            cout<<" Base case 2 "<<lo<<"-"<<lo+1<<"-"<<hi<<"\n";
-            vector<int> left;
-            vector<int> right;
-            left.push_back(arr[lo]);
-            right.push_back(arr[lo+1]);
-            vector<int> result = merge(left,right);
-            return result;
-        }
-        else{
-            cout<<"impossible\n";
-        }
-    }else{
-        cout<<" "<<qsize<<"/"<<msize<<" -> "<<lo<<"-"<<lo+qsize<<"-"<<"-"<<lo+2*qsize<<"-"<<hi<<"\n";
-        vector<int> left = mergesort_recv2(arr,lo,lo+qsize,d+1);
-        vector<int> center = mergesort_recv2(arr,lo+qsize,lo+2*qsize,d+1);
-        vector<int> right = mergesort_recv2(arr,lo+2*qsize,hi,d+1);
-        vector<int> merge1 = merge(left,center);
-        vector<int> merge2 = merge(merge1,right);
-        return merge2;
+    //Possible splits follow
+    if(msize==0){//perfect split
+        q1l = lo;
+        q1h = lo + qsize;
+        q2l = q1h;
+        q2h = q2l + qsize;
+        q3l = q2h;
+        q3h = q3l + qsize;
     }
+    else if(msize==1){//center has an extra element
+        q1l = lo;
+        q1h = lo + qsize;
+        q2l = q1h;
+        q2h = q2l + qsize + 1;
+        q3l = q2h;
+        q3h = q3l + qsize;
+    }
+    else if(msize==2){//right and left have from 1 extra element
+        q1l = lo;
+        q1h = lo + qsize + 1;
+        q2l = q1h;
+        q2h = q2l + qsize;
+        q3l = q2h;
+        q3h = q3l + qsize + 1;
+    }
+    // cout<<q1l<<"-"<<q1h<<"-"<<q2l<<"-"<<q2h<<"-"<<q3l<<"-"<<q3h<<"\n";
+    assert(q3h==hi);
+    
+    vector<int> left = mergesort_recv2(arr,q1l,q1h,d+1);
+    vector<int> center = mergesort_recv2(arr,q2l,q2h,d+1);
+    vector<int> right = mergesort_recv2(arr,q3l,q3h,d+1);
+    vector<int> merge1 = merge(left,center);
+    vector<int> merge2 = merge(merge1,right);
+    return merge2;
+
 }
 
 vector<int> mergesort(vector<int> arr){
@@ -153,12 +174,12 @@ void solve(){
     }
     vector<int> sorted = mergesort(arr);
     vector<int> sorted2 = mergesort2(arr);
-    cout<<n<<"\n";
+    cout<<n<<"\n Classic Mergesort\n";
     for (int i = 0; i < n; i++)
     {
         cout<<sorted[i]<<" ";
     }
-    cout<<"\n";
+    cout<<"\n Split-Into-Three Mergesort\n";
     for (int i = 0; i < n; i++)
     {
         cout<<sorted2[i]<<" ";
