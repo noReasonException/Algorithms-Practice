@@ -51,10 +51,11 @@ void solve(){
 		assert(r>=n/2);
 		assert(r<n);
 		ll cost=0;
-		//total cost to make arr[r] the new median
 		for (ll i = n/2; i < r; i++)
 		{
-			cost+=(arr[r] - arr[i]);	
+			//total cost to make arr[r] the new median
+			cost+=(arr[r] - arr[i]);
+			
 		}
 		return cost;
 	};
@@ -69,14 +70,29 @@ void solve(){
 	//sort data
 	sort(arr.begin(),arr.end());
 	ll l=n/2,h=n,mid=0;
-	
-	while(h-l>1){
-		mid=l+(h-l)/2;
-		if(cost(mid)<=k) l=mid;
-		else h=mid;
+	//k-cost(n-1) is the leftover moves after we attempt to make the last (and max (its sorted)) element of the array the median
+	//if the leftover cost is at least n/2 + 1 or more, we can increase the median by increasing the median and all the elements right of the median by at least one
+	//example, 1 1 1 1 2 , k = 8 -> 1 1 2 2 2 , k = 6 -> 1 1 3 3 3 , k = 3 -> 1 1 4 4 4 , k = 0.
+	if((k-cost(n-1))>=n-n/2){
+		//the max possible median is 
+		// 1. the arr[n-1] element (with cost equal to cost(n-1))
+		// 2. how many times can we add one to every element in [n/2 , n-1] ? 
+		// 		this is described by (k-cost(n-1)) / (n - n/2)
+		//      n - n/2 != n/2 as we are dealing with integer division	
+		cout<<arr[n-1]+(k-cost(n-1))/(n-n/2)<<"\n";
+	}
+	else if(cost(n/2 + 1)>k){
+		cout<<arr[n/2]+k<<"\n";
 	}
 	
-	cout<<arr[l]+((n/2==l)?k:((k-cost(l))/((l-n/2)+1)))<<"\n";
+	else{
+		while(h-l>1){
+			mid=l+(h-l)/2;
+			if(cost(mid)<=k) l=mid;
+			else h=mid;
+		}	
+		cout<<arr[l]<<"\n";
+	}
 
 	
 	
