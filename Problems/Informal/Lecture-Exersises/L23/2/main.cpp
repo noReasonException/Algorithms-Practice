@@ -5,7 +5,7 @@
 using namespace std;
 #define ll long long
 #define ull unsigned long long
-
+#include <cassert>
 //forward refs
 template <typename container> void debug(container& genericSequence,string id="None", int depth=0);
 
@@ -47,18 +47,13 @@ void solve(){
 	vector<int> arr;
 	int n,k,c;
 
-	//sort
-	//find first i where a{n/2+i} != a{n/2}
-	//start search from there, 
-
-	//bounds : Low is n/2 + i , high is n
-
-	auto state = [&arr,&n](ll i){
+	auto cost = [&arr,&n,&k](ll r){
+		assert(r>=n/2);
 		ll cost=0;
-		for (ull j = 0; j < i; j++)
+		for (ll i = n/2; i < r; i++)
 		{
-			//total cost of the state
-			cost+=(arr[i] - arr[j]);
+			//total cost to make arr[r] the new median
+			cost+=(arr[r] - arr[i]);
 			
 		}
 		return cost;
@@ -73,33 +68,25 @@ void solve(){
 	}
 	//sort data
 	sort(arr.begin(),arr.end());
-	//find first i where arr[n/2+i]!=arr[n/2];
+	ll l=n/2,h=n,mid=0;
 	
-	ll l=n/2,h=arr.size(),mid=0;
-	//logn
-	while(h-l>1){
-		mid=(l+(h-l)/2);
-		if(arr[mid]>arr[n/2]) h=mid;
-		else l=mid;
+	
+	if(k-cost(n-1)>=n/2){
+		//leftovers should exist
+		// arr[h] is the last element of the array, which is our next median
+		// (k-state(n-1)) are the spent cost to get there
+		// floor((k-state(n-1))/(n/2)) is the amount of extra additions we can make to our median without violating the cost
+		cout<<arr[n-1]+(k-cost(n-1))/((n/2)+1)<<"\n";
 	}
-	int i = mid;
-	if(i==arr.size()-1 && arr[n/2]==arr[i]){
-		//is of kind 1 2 3 4 4 4 4
-		//answer is k / (i - n/2);
-		cout<<arr[n/2] + k/(i-n/2+1)<<'\n';
-		return;
+	else{
+		while(h-l>1){
+			mid=l+(h-l)/2;
+			if(cost(mid)<=k) l=mid;
+			else h=mid;
+		}	
+		cout<<arr[l]<<"\n";
 	}
-	l=i;
-	h = n;
-	//nlogn
-	while(h-l>1){
-		mid=(l+(h-l)/2);
-		if(state(mid)<=k) l=mid;
-		else h=mid;
-	}
-
-	cout<<arr[mid]<<" with a cost of "<<state(mid)<<" leftover is "<<state(mid)-k<<'\n';
-
+	
 	
 
 
