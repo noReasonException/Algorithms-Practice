@@ -71,12 +71,11 @@ void solve(){
 	d[0]=0;
 	while(!q.empty()){
 		curr=q.front();q.pop();
-		for (ll i = 0; i < adj[curr].size(); i++)
-		{
-			if(!visited[adj[curr][i]]){
-				visited[adj[curr][i]]=true;
-				q.push(adj[curr][i]);
-				d[adj[curr][i]] = d[curr]+1;
+		for(auto &next:adj[curr]){
+			if(!visited[next]){
+				visited[next]=true;
+				q.push(next);
+				d[next]=d[curr]+1;
 			}
 		}
 	}
