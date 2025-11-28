@@ -67,7 +67,7 @@ void tarjan(int curr){
         
         else{ //either parent OR back edge. 
             
-            if(parent[curr]!=x){ //select only the span edge
+            if(parent[curr]!=x){ //select only the back edge
                 low[curr] = min(low[curr],low[x]);
             }
         }
