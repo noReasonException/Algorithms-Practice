@@ -46,30 +46,31 @@ void solve(){
     cin>>n>>x;
     vector<int>price(n,0);
     vector<int>pages(n,0);
-    vector<vector<int>> dp(x+1,vector<int>(n+1,0));
+    vector<vector<int>> dp(n+1,vector<int>(x+1,0));
     for(int i=0;i<n;i++)cin>>price[i];
     for(int i=0;i<n;i++)cin>>pages[i];
 
-    cout<<"status of dp after \n";
-    for(int i=2;i<x+1;i++){
-        for(int j=2;j<n+1;j++){
-            dp[i][j] = max(
-                dp[i-price[j]][j] + pages[j],
-                dp[i][j-1]
-            );
+    cout<<"status of dp \n";
+    for(int i=0;i<n+1;i++){
+        for(int j=0;j<x+1;j++){
+            cout<<dp[i][j]<<"\t";
         }
         cout<<"\n";
     }
-
-
-    cout<<"status of dp before \n";
-    for(int i=0;i<x+1;i++){
-        for(int j=0;j<n+1;j++){
-            cout<<dp[i][j]<<'\t';
+    //i is the books
+    //j is the capacity
+    for(int i=1;i<n+1;i++){
+        for(int j=1;j<x+1;j++){
+            //if we reached out of capacity
+            if(j>x) dp[i][j] = dp[i-1][j];
+            else dp[i][j] = max(
+                dp[i-1][j-1],
+                dp[i-1][j]+
+            )
+        
         }
         cout<<"\n";
     }
-    cout<<'\n';
 }
 
 int main(){
