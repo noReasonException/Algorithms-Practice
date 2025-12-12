@@ -49,28 +49,35 @@ void solve(){
     vector<vector<int>> dp(n+1,vector<int>(x+1,0));
     for(int i=0;i<n;i++)cin>>price[i];
     for(int i=0;i<n;i++)cin>>pages[i];
-
-    cout<<"status of dp \n";
-    for(int i=0;i<n+1;i++){
-        for(int j=0;j<x+1;j++){
-            cout<<dp[i][j]<<"\t";
-        }
-        cout<<"\n";
-    }
+    
     //i is the books
     //j is the capacity
+    
     for(int i=1;i<n+1;i++){
         for(int j=1;j<x+1;j++){
-            //if we reached out of capacity
-            if(j>x) dp[i][j] = dp[i-1][j];
-            else dp[i][j] = max(
-                dp[i-1][j-1],
-                dp[i-1][j]+
-            )
-        
+            int book = i-1;
+            if(j-price[book]<0) dp[i][j] = dp[i-1][j];
+            else if(j-price[book]>=0)
+                dp[i][j] = max(
+                    dp[i-1][j],
+                    dp[i-1][j-price[book]] + pages[book]
+                );
         }
-        cout<<"\n";
     }
+    // cout<<"status of dp \n";
+    // cout<<"\t";
+    // for(int l=0;l<x+1;l++) cout<<l<<"\t";
+    // cout<<"\n";
+    // for(int l=0;l<x+1;l++) cout<<"---------";
+    // cout<<"\n";
+    // for(int i=0;i<n+1;i++){
+    //     cout<<i<<"\t";
+    //     for(int j=0;j<x+1;j++){
+    //         cout<<dp[i][j]<<"\t";
+    //     }
+    //     cout<<"\n";
+    // }
+    cout<< dp[n][x]<<"\n";
 }
 
 int main(){
