@@ -1,8 +1,9 @@
 #include <iostream>
 #include <vector>
+#include <math.h>
 using namespace std;
 #define ll long long
-
+#define MOD  pow(10,9)+7;
 //forward refs
 template <typename container> void debug(container& genericSequence,string id="None", int depth=0);
 

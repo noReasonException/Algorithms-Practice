@@ -1,11 +1,13 @@
 #include <iostream>
 #include <vector>
 #include <set>
+#include <math.h>
+
 using namespace std;
 #define ll long long
 #define ull unsigned long long
 #define ld long double
-
+#define MOD  pow(10,9)+7;
 //forward refs
 template <typename container> void debug(container& genericSequence,string id="None", int depth=0);
 
@@ -63,20 +65,14 @@ int main(){
 		arr.push_back(m);
 	}
 
-	auto predicate = [](vector<ull> &arr,ull n,ull target,ull n){
-		ull sum=0;
-		for (ull i = 0; i < n; i++)
-		{
-			sum+=secs/arr[i];
-			if(sum>=target) return true;
-		}
-		return false;
-	};
+	// auto predicate = [](vector<ull> &arr,ull n,ull target,ull n){
+	// 	return
+	// };
 	ull l=0,h=1e18,mid=0;
 	while(h-l>1){
 		mid = l + (h-l)/2;
-		if(predicate(arr,mid,t,n))h = mid;
-		else l = mid;
+		// if(predicate(arr,mid,t,n))h = mid;
+		// else l = mid;
 	}
 	cout<<h<<'\n';
 	return 0;
