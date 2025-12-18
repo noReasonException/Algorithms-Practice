@@ -2,12 +2,12 @@
 #include <vector>
 #include <set>
 #include <math.h>
+#define ll long long
+#define MOD   ((ll) pow(10,9)+7);
 
 using namespace std;
-#define ll long long
-#define ull unsigned long long
-#define ld long double
-#define MOD  pow(10,9)+7;
+
+
 //forward refs
 template <typename container> void debug(container& genericSequence,string id="None", int depth=0);
 
@@ -45,7 +45,22 @@ template <typename container> void debug(container& genericSequence,string id="N
     * long long instead of int
     
 */
-
+void solve(){
+	int sum,tmp;
+	cin>>sum;
+	vector<int> dp(sum+1,0);
+	for(int j = 1;j<sum+1;j++){
+		tmp=(j>=1 && j<=6);
+		for(int i=1;i<=6;i++){
+			if(j-i>=0){
+				tmp = (tmp + dp[j-i]) % MOD;
+			}
+		}
+		dp[j] = tmp;
+	}
+	cout<<dp[sum]<<"\n";
+	return;
+}
 
 int main(){
 	ios::sync_with_stdio(false);
@@ -53,28 +68,8 @@ int main(){
 	//freopen("input.txt", "r", stdin);
 	//freopen("output.txt", "w", stdout);
 
-	ull n,t,m;
-	cin>>n>>t;
-	ull x=0;
-	vector<ull> arr; 
-
-	for (ull i = 0; i <  n; i++)
-	{
-
-		cin>>m;
-		arr.push_back(m);
-	}
-
-	// auto predicate = [](vector<ull> &arr,ull n,ull target,ull n){
-	// 	return
-	// };
-	ull l=0,h=1e18,mid=0;
-	while(h-l>1){
-		mid = l + (h-l)/2;
-		// if(predicate(arr,mid,t,n))h = mid;
-		// else l = mid;
-	}
-	cout<<h<<'\n';
-	return 0;
 	
+
+	solve();
+	return 0;
 }
