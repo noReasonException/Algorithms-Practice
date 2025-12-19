@@ -2,10 +2,13 @@
 #include <vector>
 #include <set>
 #include <math.h>
-
 using namespace std;
-#define ll long long
-#define MOD  pow(10,9)+7;
+#define ll 		long long
+#define ull 	unsigned long long
+#define ld 		long double
+#define MOD  	pow(10,9)+7;
+#define INF_INT	(1<<30)
+#define INF_LL 	(1L<<62)
 
 //forward refs
 template <typename container> void debug(container& genericSequence,string id="None", int depth=0);
